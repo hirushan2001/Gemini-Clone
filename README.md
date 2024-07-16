@@ -1,4 +1,8 @@
-# React + Vite
+# Gemini-Clone
+
+This project combines the Gemini-Clone with a React setup using Vite.
+
+## React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
