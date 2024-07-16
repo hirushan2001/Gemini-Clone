@@ -9,14 +9,12 @@ const ContextProvider = (props) => {
   const [prevprompt, setPrevPrompt] = useState([]);
   const [showResult, setShowResult] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [resultData, setResultData] = useState([]);
+  const [resultData, setResultData] = useState("");
 
   const delayPara = (index,nextWord) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(para);
-      }, 500);
-    });
+    setTimeout( function () {
+      setResultData(prev => prev+nextWord);
+    }, 75*index);
   };
 
 
@@ -24,20 +22,25 @@ const ContextProvider = (props) => {
     setResultData("");
     setLoading(true);
     setShowResult(true);
-    setRecentPrompt(input)
+    setRecentPrompt(input);
+    setPrevPrompt(prev => [...prev, input])
     const response = await run(input);
     let responseArray = response.split("**");
     let newresponse;
     for (let i = 0; i < responseArray.length; i++) {
-    if( i ===0 || i%2 !== 1){
+    if( i === 0 || i%2 !== 1){
         newresponse += responseArray[i];
     }
     else{
-        newresponse += " " + responseArray[i];
+        newresponse += "<b>" + responseArray[i] +"</b>";
     }
     }
     let newResponse2 = newresponse.split("*").join("</br>");
-    setResultData(newResponse2);
+    let newResponseArray = newResponse2.split(" ");
+    for (let i = 0; i < newResponseArray.length; i++) {
+      const nextWord = newResponseArray[i];
+      delayPara(i,nextWord+ "");
+    }
     setLoading(false);
     setInput("");
   };

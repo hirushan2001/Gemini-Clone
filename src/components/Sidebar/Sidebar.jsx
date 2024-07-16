@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import './Sidebar.css';
 import { assets } from '../../assets/assets';
+import { Context } from '../../context/context'; // Make sure this path is correct
 
 const Sidebar = () => {
     const [expanded, setExpanded] = useState(true);
+    const { onSent, prevprompt, setRecentPrompt } = useContext(Context);
     
     const toggleSidebar = () => {
         setExpanded(!expanded);
@@ -25,10 +27,12 @@ const Sidebar = () => {
                 {expanded && (
                     <div className="recent">
                         <p className='recent-title'>Recent</p>
-                        <div className="recent-entry">
-                            <img src={assets.message_icon} alt="Message Icon" />
-                            <p>What is react...</p>
-                        </div>
+                        {prevprompt.map((item, index) => (
+                            <div key={index} className="recent-entry">
+                                <img src={assets.message_icon} alt="Message Icon" />
+                                <p>{item.slice(0, 18)}...</p>
+                            </div>
+                        ))}
                     </div>
                 )}
             </div>
