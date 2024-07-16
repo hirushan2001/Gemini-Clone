@@ -1,0 +1,11 @@
+.sidebar{
+    min-height: 100vh;	
+    display: inline-flex;
+    flex-direction: column;
+    justify-content:space-between ;
+    background-color: #fff;
+}
+
+.sidebar img{
+    width: 20px;
+}
