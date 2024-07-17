@@ -5,11 +5,16 @@ import { Context } from '../../context/context'; // Make sure this path is corre
 
 const Sidebar = () => {
     const [expanded, setExpanded] = useState(true);
-    const { onSent, prevprompt, setRecentPrompt } = useContext(Context);
+    const { onSent, prevprompt, setRecentPrompt,newchat } = useContext(Context);
     
     const toggleSidebar = () => {
         setExpanded(!expanded);
     };
+
+    const loadPrompt = async (prompt) => {
+        await onSent(prompt);
+        setRecentPrompt(prompt);
+    }
     
     return (
         <div className={`sidebar ${expanded ? 'expanded' : 'collapsed'}`}>
@@ -20,19 +25,21 @@ const Sidebar = () => {
                     alt="Menu Icon" 
                     onClick={toggleSidebar}
                 />
-                <div className="new-chat">
+                <div onClick={newchat} className="new-chat">
                     <img src={assets.plus_icon} alt="New Chat Icon" />
                     {expanded && <p>New Chat</p>}
                 </div>
                 {expanded && (
                     <div className="recent">
                         <p className='recent-title'>Recent</p>
-                        {prevprompt.map((item, index) => (
-                            <div key={index} className="recent-entry">
-                                <img src={assets.message_icon} alt="Message Icon" />
-                                <p>{item.slice(0, 18)}...</p>
-                            </div>
-                        ))}
+                        {prevprompt.map((item, index) => {
+                            return (
+                                <div onClick={() => loadPrompt(item)} key={index} className="recent-entry">
+                                    <img src={assets.message_icon} alt="Message Icon" />
+                                    <p>{item.slice(0, 18)}...</p>
+                                </div>
+                            )
+                        })}
                     </div>
                 )}
             </div>
