@@ -26,7 +26,7 @@ const ContextProvider = (props) => {
     setPrevPrompt(prev => [...prev, input])
     const response = await run(input);
     let responseArray = response.split("**");
-    let newresponse;
+    let newresponse= "";
     for (let i = 0; i < responseArray.length; i++) {
     if( i === 0 || i%2 !== 1){
         newresponse += responseArray[i];
@@ -39,7 +39,7 @@ const ContextProvider = (props) => {
     let newResponseArray = newResponse2.split(" ");
     for (let i = 0; i < newResponseArray.length; i++) {
       const nextWord = newResponseArray[i];
-      delayPara(i,nextWord+ "");
+      delayPara(i,nextWord+ " ");
     }
     setLoading(false);
     setInput("");
